@@ -11,6 +11,8 @@ namespace Blog_API.Configurations
         public string Name { get; set; }
         public string ProviderName { get; set; }
         public bool IsGlobal => false;
+
+
     }
 
     public class LinqToDbSettingsDevelopment : ILinqToDBSettings

@@ -8,7 +8,7 @@ namespace Blog_Repositories
 {
     public static class DataContextHelpers
     {
-        public static T GetByPk<T>(this DataConnection context, object pkValue) where T : class
+        public static T GetByPk<T>(this IDataContext context, object pkValue) where T : class
         {
             using (var db = new DataConnection())
             {
@@ -16,12 +16,6 @@ namespace Blog_Repositories
                 var expression = ExpressionConversion<T>(entity => entity.FindDynamic<T>(pkName.Name, pkValue));
                 return db.GetTable<T>().Where<T>(expression).FirstOrDefault();
             }
-        }
-
-        private static Func<T, bool> ExpressionConversion<T>(Expression<Func<T, bool>> expression)
-        {
-            Expression<Func<T, bool>> g = obj => expression.Compile().Invoke(obj);
-            return g.Compile();
         }
 
         public static bool FindDynamic<T>(this T entity, string pkName, object pkValue) where T : class
@@ -37,6 +31,12 @@ namespace Blog_Repositories
             }
 
             return result;
+        }
+
+        private static Func<T, bool> ExpressionConversion<T>(Expression<Func<T, bool>> expression)
+        {
+            Expression<Func<T, bool>> g = obj => expression.Compile().Invoke(obj);
+            return g.Compile();
         }
     }
 }

@@ -4,17 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+
+
 namespace Blog_Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {
-        protected DataConnection _dbContext;
+        protected IDataContext _dbContext;
 
         protected LinqToDB.ITable<T> _dbSet;
 
         public ITable<T> DBSet { get; set; }
 
-        public BaseRepository(DataConnection context)
+        public BaseRepository(IDataContext context)
         {
             _dbContext = context;
             _dbSet = _dbContext.GetTable<T>();
@@ -71,8 +73,15 @@ namespace Blog_Repositories
 
         public T FindById(int id)
         {
-            T item = _dbContext.GetByPk<T>(id);
-            return item;
+            var pkName = typeof(T).GetProperties().Where(prop => prop.GetCustomAttributes(typeof(LinqToDB.Mapping.PrimaryKeyAttribute), false).Count() > 0).First();
+            var expression = ExpressionConversion<T>(entity => entity.FindDynamic<T>(pkName.Name, id));
+            return _dbSet.Where<T>(expression).FirstOrDefault();
+        }
+
+        private static Func<T, bool> ExpressionConversion<T>(Expression<Func<T, bool>> expression)
+        {
+            Expression<Func<T, bool>> g = obj => expression.Compile().Invoke(obj);
+            return g.Compile();
         }
 
         public T FindById(Guid id)

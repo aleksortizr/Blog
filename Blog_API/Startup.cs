@@ -1,47 +1,57 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blog.DataAccess;
+using Blog_API.Configurations;
 using Blog_BusinessLogic;
-using Blog_Common.DTOs;
 using Blog_Repositories;
+using LinqToDB;
+using LinqToDB.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Nest;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Blog_API
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IUsersRepository, UserRepository>();
-            services.AddScoped<IPostsRepository, PostsRepository>();
-            services.AddScoped<IBlogManager, BlogManager>();
-            services.AddMvc();
-        }
+                                                                             
+            services.AddSingleton<IDataContext, DataContext>();
+            services.AddSingleton<IPostsRepository, PostsRepository>();
+            services.AddSingleton<IBlogManager, BlogManager>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Zemoga Blog API",
+                    Description = "Exposes methods to handle Blog Manager."
+                });
+            });
 
+            
+        }
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
+                DataConnection.DefaultSettings = new LinqToDbSettingsDevelopment();
                 app.UseDeveloperExceptionPage();
             }
 
@@ -56,11 +66,9 @@ namespace Blog_API
                 endpoints.MapControllers();
             });
 
-            app.UseEndpoints(routes =>
-            {
-                routes.MapRazorPages();
-                routes.MapFallbackToPage("_Host");
-            });
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API v1"));
         }
     }
 }

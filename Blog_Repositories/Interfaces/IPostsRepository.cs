@@ -1,4 +1,5 @@
 ﻿using Blog_Common.DTOs;
+using System.Collections.Generic;
 
 namespace Blog_Repositories
 {
@@ -11,5 +12,9 @@ namespace Blog_Repositories
         public bool Reject(int postId);
 
         public bool Delete(int postId);
+
+        public PostDTO Get(int? postId);
+
+        public IEnumerable<PostDTO> Get();
     }
 }

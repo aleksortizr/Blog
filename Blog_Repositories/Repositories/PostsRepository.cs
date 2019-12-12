@@ -1,14 +1,16 @@
 ﻿using Blog.DataAccess;
 using Blog_Common;
 using Blog_Common.DTOs;
+using LinqToDB;
 using LinqToDB.Data;
 using System;
+using System.Collections.Generic;
 
 namespace Blog_Repositories
 {
     public class PostsRepository : BaseRepository<Post>, IRepository<Post>, IPostsRepository
     {
-        public PostsRepository(DataConnection context) : base(context)
+        public PostsRepository(IDataContext context) : base(context)
         {
 
         }
@@ -43,6 +45,18 @@ namespace Blog_Repositories
             return false;
         }
 
+        public PostDTO Get(int postId)
+        {
+            var result = FindById(postId);
+            return Mapping.Mapper.Map<PostDTO>(result);
+        }
+
+        public IEnumerable<PostDTO> Get()
+        {
+            var result = List(null, null);
+            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
+        }
+
         public bool Reject(int postId)
         {
             throw new NotImplementedException();
@@ -63,6 +77,11 @@ namespace Blog_Repositories
         bool IPostsRepository.Delete(int postId)
         {
             return Delete(postId);
+        }
+
+        PostDTO IPostsRepository.Get(int? postId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

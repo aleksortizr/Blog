@@ -7,6 +7,8 @@ namespace Blog_BusinessLogic
 {
     public interface IBlogManager
     {
-        public bool AddPost(PostDTO request);
+        public bool Add(PostDTO request);
+
+        public IEnumerable<PostDTO> Get(int? postId);
     }
 }

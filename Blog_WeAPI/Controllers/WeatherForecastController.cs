@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Blog_API.Controllers
+namespace Blog_WeAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -18,7 +19,7 @@ namespace Blog_API.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IDataContext dataContext)
         {
             _logger = logger;
         }

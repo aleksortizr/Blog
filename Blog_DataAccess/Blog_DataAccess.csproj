@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="linq2db.Identity" Version="2.0.1" />
     <PackageReference Include="linq2db.SqlServer" Version="3.0.0-preview.1" />
+    <PackageReference Include="Microsoft.SqlServer.Types" Version="14.0.1016.290" />
   </ItemGroup>
 
   <ItemGroup>
