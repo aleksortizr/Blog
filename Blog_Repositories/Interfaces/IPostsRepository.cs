@@ -1,19 +1,21 @@
-﻿using Blog_Common.DTOs;
+﻿using Blog.DataAccess;
+using Blog_Common;
+using Blog_Common.DTOs;
 using System.Collections.Generic;
 
 namespace Blog_Repositories
 {
-    public interface IPostsRepository
+    public interface IPostsRepository : IRepository<Post>
     {
-        public bool Add(PostDTO post);
+        public int Add(PostDTO post);
 
-        public bool Approve(int postId);
+        public bool ChangeStatus(int postId, PostStatuses status);
 
-        public bool Reject(int postId);
+        public new bool Delete(int postId);
 
-        public bool Delete(int postId);
+        public bool Update(PostDTO post);
 
-        public PostDTO Get(int? postId);
+        public PostDTO Get(int postId);
 
         public IEnumerable<PostDTO> Get();
     }

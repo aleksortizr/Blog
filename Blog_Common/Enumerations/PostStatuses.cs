@@ -4,8 +4,9 @@ namespace Blog_Common
 {
     public enum PostStatuses
     {
-        Pending = 1,
-        Approved = 2,
-        Rejected = 3
+        Created = 1,
+        Pending = 2,
+        Approved = 3,
+        Rejected = 4
     }
 }

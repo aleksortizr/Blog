@@ -31,7 +31,7 @@ namespace Blog_API.Configurations
                     {
                         Name = "SqlServer",
                         ProviderName = "SqlServer",
-                        ConnectionString = @"Server=DESKTOP-8FG06S6;Database=Blog;Trusted_Connection=True;" //Alexander Home
+                        ConnectionString = @"Server=DESKTOP-94C82G3;Database=Blog;Trusted_Connection=True;" //Alexander Home
                     };
             }
         }

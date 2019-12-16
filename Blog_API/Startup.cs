@@ -30,6 +30,7 @@ namespace Blog_API
                                                                              
             services.AddSingleton<IDataContext, DataContext>();
             services.AddSingleton<IPostsRepository, PostsRepository>();
+            services.AddSingleton<IUsersRepository, UserRepository>();
             services.AddSingleton<IBlogManager, BlogManager>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             

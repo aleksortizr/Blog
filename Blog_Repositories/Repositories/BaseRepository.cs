@@ -52,17 +52,9 @@ namespace Blog_Repositories
             return query as IEnumerable<T>;
         }
 
-        public string Add(T entity)
+        public int Add(T entity)
         {
-            try
-            {
-                _dbContext.Insert<T>(entity);
-                return String.Empty;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message.ToString();
-            }
+            return (int) _dbContext.InsertWithInt32Identity<T>(entity);
         }
 
         public bool Delete(T item)

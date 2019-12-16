@@ -2,7 +2,6 @@
 using Blog_Common;
 using Blog_Common.DTOs;
 using LinqToDB;
-using LinqToDB.Data;
 using System;
 using System.Collections.Generic;
 
@@ -15,34 +14,29 @@ namespace Blog_Repositories
 
         }
 
-        public bool Add(PostDTO post)
+        public int Add(PostDTO post)
         {
-            var result = Add(new Post
+            return Add(new Post
             {
                 CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now,
                 StatusId = (int)PostStatuses.Pending,
                 Text = post.Text,
                 UserId = post.UserId
             });
-
-            return String.IsNullOrEmpty(result);
         }
 
-        public bool Approve(int postId)
+        public bool Update(PostDTO post)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool ApprovePost(int postId)
-        {
-            Post post = FindById(postId);
-
-            if(post != null)
+            return Update(new Post
             {
-                post.StatusId = (int)PostStatuses.Approved;
-                return Update(post);
-            }
-            return false;
+                Id = post.Id,
+                CreatedDate = post.CreatedDate,
+                StatusId = (int) PostStatuses.Created,
+                Text = post.Text,
+                UserId = post.UserId,
+                UpdatedDate = DateTime.Now
+            });
         }
 
         public PostDTO Get(int postId)
@@ -57,18 +51,13 @@ namespace Blog_Repositories
             return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
         }
 
-        public bool Reject(int postId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RejectPost(int postId)
+        public bool ChangeStatus(int postId, PostStatuses status)
         {
             Post post = FindById(postId);
 
             if (post != null)
             {
-                post.StatusId = (int)PostStatuses.Rejected;
+                post.StatusId = (int)status;
                 return Update(post);
             }
             return false;
@@ -77,11 +66,6 @@ namespace Blog_Repositories
         bool IPostsRepository.Delete(int postId)
         {
             return Delete(postId);
-        }
-
-        PostDTO IPostsRepository.Get(int? postId)
-        {
-            throw new NotImplementedException();
         }
     }
 }
