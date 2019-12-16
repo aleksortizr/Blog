@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blog_BusinessLogic
+namespace Blog_BusinessLogic.Services
 {
     public interface IBlogManager
     {

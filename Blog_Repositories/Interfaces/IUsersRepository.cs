@@ -10,7 +10,11 @@ namespace Blog_Repositories
     {
         public UserDTO Get(int userId);
 
+        public UserDTO Get(string userName);
+
         public IEnumerable<UserDTO> Get();
+
+        public int Register(UserDTO request);
 
     }
 }

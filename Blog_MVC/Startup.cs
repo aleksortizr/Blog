@@ -1,52 +1,50 @@
 using Blog_API.Configurations;
 using Blog_BusinessLogic;
 using Blog_BusinessLogic.Services;
+using Blog_MVC.Services;
 using Blog_Repositories;
 using LinqToDB;
 using LinqToDB.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
-namespace Blog_API
+namespace Blog_MVC
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-                                                                             
-            services.AddSingleton<IDataContext, DataContext>();
-            services.AddSingleton<IPostsRepository, PostsRepository>();
-            services.AddSingleton<IUsersRepository, UserRepository>();
-            services.AddSingleton<IBlogManager, BlogManager>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Zemoga Blog API",
-                    Description = "Exposes methods to handle Blog Manager."
-                });
-            });
+            services.AddControllersWithViews();
 
             
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/auth/login";
+                    options.AccessDeniedPath = "/auth/accessdenied";
+                })
+                .AddCookie("TempCookie");
+            services.AddMvc();
+
+            services.AddSingleton<IDataContext, DataContext>();
+            services.AddSingleton<IUsersRepository, UserRepository>();
+            services.AddSingleton<IBlogUserManager, BlogUserManager>();
+            services.AddSingleton<IUserService, DummyUserService>();
         }
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -55,21 +53,24 @@ namespace Blog_API
                 DataConnection.DefaultSettings = new LinqToDbSettingsDevelopment();
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-            app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API v1"));
         }
     }
 }

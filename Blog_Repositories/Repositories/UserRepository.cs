@@ -3,6 +3,7 @@ using Blog_Common.DTOs;
 using LinqToDB;
 using LinqToDB.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Blog_Repositories
 {
@@ -13,9 +14,17 @@ namespace Blog_Repositories
             
         }
 
-        public UserDTO Get(int postId)
+        public UserDTO Get(int userId)
         {
-            var result = FindById(postId);
+            var result = FindById(userId);
+            return Mapping.Mapper.Map<UserDTO>(result);
+        }
+
+        public UserDTO Get(string userName)
+        {
+            var result = _dbSet.Where(u => u.UserName.Equals(userName, System.StringComparison.InvariantCultureIgnoreCase));
+            if (result == null)
+                return null;
             return Mapping.Mapper.Map<UserDTO>(result);
         }
 
@@ -23,6 +32,16 @@ namespace Blog_Repositories
         {
             var result = List(null, null);
             return Mapping.Mapper.Map<IEnumerable<UserDTO>>(result);
+        }
+
+        public int Register(UserDTO request)
+        {
+            return Add(new User
+            {
+                Password = request.Password,
+                RoleId = 1,
+                UserName = request.UserName
+            });
         }
     }
 }
