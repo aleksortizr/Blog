@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using static Blog_MVC.Models.LoginModel;
 using Blog_Common.DTOs;
 using LinqToDB;
 
@@ -32,13 +30,13 @@ namespace Blog_MVC.Controllers
         [Route("login")]
         public IActionResult LogIn()
         {
-            return View(new LogInModel());
+            return View(new LoginModel());
         }
 
         [Route("login")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> LogIn(LogInModel model)
+        public async Task<IActionResult> LogIn(LoginModel model)
         {
             if (!ModelState.IsValid)
             {

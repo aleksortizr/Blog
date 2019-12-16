@@ -22,9 +22,15 @@ namespace Blog_Repositories
 
         public UserDTO Get(string userName)
         {
-            var result = _dbSet.Where(u => u.UserName.Equals(userName, System.StringComparison.InvariantCultureIgnoreCase));
-            if (result == null)
+            var count = (from user in _dbSet
+                         where user.UserName.ToLower() == userName.ToLower()
+                         select user).Count();
+
+            if (count <= 0)
                 return null;
+            var result = (from user in _dbSet
+                          where user.UserName.ToLower().Equals(userName.ToLower())
+                          select user).First();
             return Mapping.Mapper.Map<UserDTO>(result);
         }
 

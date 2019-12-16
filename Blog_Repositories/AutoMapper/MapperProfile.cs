@@ -16,6 +16,12 @@ namespace Blog_Repositories
                 .ForMember(dest => dest.Text, opt => opt.MapFrom((src, dest) => src.Text))
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom((src, dest) => src.CreatedDate))
                 .ReverseMap();
+
+            CreateMap<UserDTO, User>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom((src, dest) => src.Id))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom((src, dest) => src.Password))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom((src, dest) => src.UserName))
+                .ReverseMap();
         }
     }
 }
