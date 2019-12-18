@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace Blog_MVC.Services
 {
-    public class DummyUserService : IUserService
+    public class PostManagerService : IPostManagerService
     {
         private readonly IBlogUserManager _blogUserManager;
         private readonly IBlogManager _blogManager;
 
-        public DummyUserService(IBlogUserManager blogUserManager, IBlogManager blogManager)
+        public PostManagerService(IBlogUserManager blogUserManager, IBlogManager blogManager)
         {
             _blogUserManager = blogUserManager;
             _blogManager = blogManager;
@@ -51,13 +51,18 @@ namespace Blog_MVC.Services
             }));
         }
 
-        public Task<bool> CreatePost(string userId, string text)
+        public Task<bool> CreatePost(string username, string text)
         {
             return Task.FromResult(_blogManager.AddPost(new CreatePostRequest
             {
                 Text = text,
-                UserId = int.Parse(userId)
+                UserName = username
             }));
+        }
+
+        public Task<IEnumerable<PostDTO>> UserPosts(string userId)
+        {
+            return Task.FromResult(_blogManager.GetUserPosts(userId));
         }
 
         #region Private Methods

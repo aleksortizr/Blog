@@ -51,6 +51,12 @@ namespace Blog_Repositories
             return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
         }
 
+        public IEnumerable<PostDTO> GetUserPosts(int userId)
+        {
+            var result = List(x => x.UserId == userId, null);
+            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
+        }
+
         public bool ChangeStatus(int postId, PostStatuses status)
         {
             Post post = FindById(postId);

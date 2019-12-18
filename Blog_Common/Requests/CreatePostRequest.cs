@@ -6,7 +6,7 @@ namespace Blog_Common.Requests
 {
     public class CreatePostRequest
     {
-        public int UserId { get; set; }
+        public string UserName { get; set; }
 
         public string Text { get; set; }
 

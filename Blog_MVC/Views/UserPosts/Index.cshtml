@@ -1,0 +1,44 @@
+﻿@model Blog_MVC.Models.UserPostsModel
+
+@{
+    ViewData["Title"] = "Your Posts";
+}
+
+<h1>Your posts</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Text</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.UserPosts != null && Model.UserPosts.Count() > 0)
+        {
+            @foreach (var item in Model.UserPosts.OrderByDescending(p => p.CreatedDate))
+            {
+                <tr>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.Text</td>
+                    <td>@item.StatusName</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "UserPosts", new { postId = item.Id}) |
+                        @Html.ActionLink("Submit", "Submit", new { postId = item.Id}))
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <small id="searchHelp" class="form-text text-muted">Query returned no elements.</small>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

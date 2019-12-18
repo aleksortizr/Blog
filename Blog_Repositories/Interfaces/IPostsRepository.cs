@@ -17,6 +17,8 @@ namespace Blog_Repositories
 
         public PostDTO Get(int postId);
 
+        public IEnumerable<PostDTO> GetUserPosts(int userId);
+
         public IEnumerable<PostDTO> Get();
     }
 }

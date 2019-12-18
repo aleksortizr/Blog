@@ -12,6 +12,8 @@ namespace Blog_BusinessLogic.Services
 
         public IEnumerable<PostDTO> GetPosts(int? postId);
 
+        public IEnumerable<PostDTO> GetUserPosts(string username);
+
         public bool EditPost(UpdatePostRequest request);
 
         public bool DeletePost(int postId);

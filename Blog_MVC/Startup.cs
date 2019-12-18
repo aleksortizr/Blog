@@ -43,7 +43,7 @@ namespace Blog_MVC
             services.AddSingleton<IPostsRepository, PostsRepository>();
             services.AddSingleton<IBlogUserManager, BlogUserManager>();
             services.AddSingleton<IBlogManager, BlogManager>();
-            services.AddSingleton<IUserService, DummyUserService>();
+            services.AddSingleton<IPostManagerService, PostManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

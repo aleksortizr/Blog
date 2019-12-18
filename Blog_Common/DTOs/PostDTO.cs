@@ -9,6 +9,8 @@ namespace Blog_Common.DTOs
 		public string Text { get; set; } // nvarchar(255)
 		public int UserId { get; set; } // int
 		public int StatusId { get; set; } // int
+
+		public string StatusName { get { return ((PostStatuses)StatusId).ToString(); } } // int
 		public DateTime CreatedDate { get; set; } // datetime
 	}
 }

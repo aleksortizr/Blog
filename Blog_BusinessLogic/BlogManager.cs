@@ -26,7 +26,7 @@ namespace Blog_BusinessLogic
         /// <returns></returns>
         public bool AddPost(CreatePostRequest request)
         {
-            var user = _usersRepository.Get(request.UserId);
+            var user = _usersRepository.Get(request.UserName);
             if(user != null && user.RoleId == (int) Roles.Writer)
             {
                 var insertedId = _postsRepository.Add(new PostDTO
@@ -34,7 +34,7 @@ namespace Blog_BusinessLogic
                     CreatedDate = DateTime.Now,
                     StatusId = (int) PostStatuses.Created,
                     Text = request.Text,
-                    UserId = request.UserId
+                    UserId = user.Id
                 });
 
                 return insertedId > 0;
@@ -52,6 +52,15 @@ namespace Blog_BusinessLogic
             }
 
             return Mapping.Mapper.Map<IEnumerable<PostDTO>>(_postsRepository.Get());
+        }
+
+        public IEnumerable<PostDTO> GetUserPosts(string username)
+        {
+            var user = _usersRepository.Get(username);
+
+            if (user == null)
+                return null;
+            return _postsRepository.GetUserPosts(user.Id);
         }
 
         public bool EditPost(UpdatePostRequest request)

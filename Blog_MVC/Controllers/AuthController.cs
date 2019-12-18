@@ -13,7 +13,7 @@ namespace Blog_MVC.Controllers
     [Route("auth")]
     public class AuthController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IPostManagerService _userService;
         private readonly IDataContext _context;
 
         public IActionResult Index()
@@ -21,7 +21,7 @@ namespace Blog_MVC.Controllers
             return View();
         }
 
-        public AuthController(IUserService userService, IDataContext context)
+        public AuthController(IPostManagerService userService, IDataContext context)
         {
             _context = context;
             this._userService = userService;
