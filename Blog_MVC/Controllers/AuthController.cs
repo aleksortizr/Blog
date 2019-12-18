@@ -13,7 +13,7 @@ namespace Blog_MVC.Controllers
     [Route("auth")]
     public class AuthController : Controller
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
         private readonly IDataContext _context;
 
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace Blog_MVC.Controllers
         public AuthController(IUserService userService, IDataContext context)
         {
             _context = context;
-            this.userService = userService;
+            this._userService = userService;
         }
 
         [Route("login")]
@@ -43,7 +43,7 @@ namespace Blog_MVC.Controllers
                 return View(model);
             }
 
-            var user = await userService.Authenticate(model.UserName, model.Password);
+            var user = await _userService.Authenticate(model.UserName, model.Password);
             if (user == null)
             {
                 ModelState.AddModelError("InvalidCredentials", "Could not validate your credentials");
@@ -69,7 +69,7 @@ namespace Blog_MVC.Controllers
                 return View(model);
             }
 
-            var user = await userService.Add(model.UserName, model.Password);
+            var user = await _userService.Add(model.UserName, model.Password);
 
             return await SignInUser(user);
         }
@@ -94,8 +94,10 @@ namespace Blog_MVC.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };
-            var identity = new ClaimsIdentity(claims);
+            var identity = new ClaimsIdentity(claims, "form");
             var principal = new ClaimsPrincipal(identity);
 
             await HttpContext.SignInAsync(principal);

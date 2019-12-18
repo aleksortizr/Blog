@@ -9,5 +9,6 @@ namespace Blog_MVC.Services
     {
         Task<UserDTO> Authenticate(string userName, string password);
         Task<UserDTO> Add(string username, string password);
+        public Task<bool> CreatePost(string userId, string text);
     }
 }

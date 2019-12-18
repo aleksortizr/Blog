@@ -2,6 +2,7 @@
 using Blog_BusinessLogic;
 using Blog_BusinessLogic.Services;
 using Blog_Common.DTOs;
+using Blog_Common.Requests;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Blog_MVC.Services
     public class DummyUserService : IUserService
     {
         private readonly IBlogUserManager _blogUserManager;
+        private readonly IBlogManager _blogManager;
 
-        public DummyUserService(IBlogUserManager blogUserManager)
+        public DummyUserService(IBlogUserManager blogUserManager, IBlogManager blogManager)
         {
             _blogUserManager = blogUserManager;
+            _blogManager = blogManager;
         }
 
         public Task<UserDTO> Add(string userName, string password)
@@ -48,6 +51,16 @@ namespace Blog_MVC.Services
             }));
         }
 
+        public Task<bool> CreatePost(string userId, string text)
+        {
+            return Task.FromResult(_blogManager.AddPost(new CreatePostRequest
+            {
+                Text = text,
+                UserId = int.Parse(userId)
+            }));
+        }
+
+        #region Private Methods
         private string HashString(string str)
         {
             var message = Encoding.Unicode.GetBytes(str);
@@ -56,6 +69,8 @@ namespace Blog_MVC.Services
             var hashValue = hash.ComputeHash(message);
             return Encoding.Unicode.GetString(hashValue);
         }
+
+        #endregion
 
     }
 }

@@ -20,6 +20,7 @@ namespace Blog_MVC.Controllers
         }
 
         [Route("")]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
@@ -36,6 +37,13 @@ namespace Blog_MVC.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Route("userinfo")]
+        [Authorize]
+        public IActionResult UserInformation()
+        {
+            return View();
         }
     }
 }
