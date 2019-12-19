@@ -13,5 +13,21 @@ namespace Blog_MVC.Services
         public Task<bool> CreatePost(string userId, string text);
 
         public Task<IEnumerable<PostDTO>> UserPosts(string userId);
+
+        public Task<IEnumerable<PostDTO>> PendingPosts();
+
+        public Task<IEnumerable<PostDTO>> ApprovedPosts();
+
+        public Task<PostDTO> GetPostById(int postId);
+
+        public Task<bool> UpdatePost(PostDTO post);
+
+        public Task<bool> SubmitPost(int postId);
+
+        public Task<bool> Approve(int postId);
+
+        public Task<bool> Reject(int postId);
+
+        public Task<bool> Delete(int postId);
     }
 }

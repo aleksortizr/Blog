@@ -12,10 +12,10 @@ namespace Blog_Repositories
                 .ForMember(dest => dest.Id, opt => opt.MapFrom((src, dest) => src.Id))
                 .ForMember(dest => dest.ParentId, opt => opt.MapFrom((src, dest) => src.ParentId))
                 .ForMember(dest => dest.StatusId, opt => opt.MapFrom((src, dest) => src.StatusId))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom((src, dest) => src.StatusId))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom((src, dest) => src.UserId))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom((src, dest) => src.Text))
-                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom((src, dest) => src.CreatedDate))
-                .ReverseMap();
+                .ForMember(dest => dest.ApprovalDate, opt => opt.MapFrom((src, dest) => src.ApprovalDate))
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom((src, dest) => src.CreatedDate)).ReverseMap();
 
             CreateMap<UserDTO, User>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom((src, dest) => src.Id))

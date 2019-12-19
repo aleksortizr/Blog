@@ -26,10 +26,9 @@ namespace Blog_API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<PostDTO> Get(int? postId)
+        public PostDTO Get(int postId)
         {
-            var result = _blogManager.GetPosts(postId);
-            return result;
+            return _blogManager.GetPost(postId); 
         }
 
         [HttpPost]

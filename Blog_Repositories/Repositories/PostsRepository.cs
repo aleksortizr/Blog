@@ -20,7 +20,7 @@ namespace Blog_Repositories
             {
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
-                StatusId = (int)PostStatuses.Pending,
+                StatusId = (int)PostStatuses.Created,
                 Text = post.Text,
                 UserId = post.UserId
             });
@@ -64,6 +64,8 @@ namespace Blog_Repositories
             if (post != null)
             {
                 post.StatusId = (int)status;
+                if (status == PostStatuses.Approved)
+                    post.ApprovalDate = DateTime.Now;
                 return Update(post);
             }
             return false;
@@ -72,6 +74,18 @@ namespace Blog_Repositories
         bool IPostsRepository.Delete(int postId)
         {
             return Delete(postId);
+        }
+
+        public IEnumerable<PostDTO> GetPendingPosts()
+        {
+            var result = List(x => x.StatusId == (int)PostStatuses.Pending, null);
+            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
+        }
+
+        public IEnumerable<PostDTO> GetApprovedPosts()
+        {
+            var result = List(x => x.StatusId == (int)PostStatuses.Approved, null);
+            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
         }
     }
 }

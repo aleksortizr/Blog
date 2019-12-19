@@ -18,7 +18,7 @@ namespace Blog_BusinessLogic
             _postsRepository = postRepository;
             _usersRepository = userRepository;
         }
-        
+
         /// <summary>
         /// Checks availabilty to crate post and does the creation uppon result
         /// </summary>
@@ -27,12 +27,12 @@ namespace Blog_BusinessLogic
         public bool AddPost(CreatePostRequest request)
         {
             var user = _usersRepository.Get(request.UserName);
-            if(user != null && user.RoleId == (int) Roles.Writer)
+            if (user != null && user.RoleId == (int)Roles.Writer)
             {
                 var insertedId = _postsRepository.Add(new PostDTO
                 {
                     CreatedDate = DateTime.Now,
-                    StatusId = (int) PostStatuses.Created,
+                    StatusId = (int)PostStatuses.Created,
                     Text = request.Text,
                     UserId = user.Id
                 });
@@ -43,15 +43,17 @@ namespace Blog_BusinessLogic
             return false;
         }
 
-        public IEnumerable<PostDTO> GetPosts(int? postId)
+        public IEnumerable<PostDTO> GetPosts()
         {
-            if (postId.HasValue)
-            {
-                var result = _postsRepository.Get(postId.Value);
-                return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
-            }
+            var result = _postsRepository.Get();
+            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
+        }
 
-            return Mapping.Mapper.Map<IEnumerable<PostDTO>>(_postsRepository.Get());
+        public PostDTO GetPost(int postId)
+        {
+            var result = _postsRepository.Get(postId);
+
+            return Mapping.Mapper.Map<PostDTO>(result);
         }
 
         public IEnumerable<PostDTO> GetUserPosts(string username)
@@ -63,11 +65,21 @@ namespace Blog_BusinessLogic
             return _postsRepository.GetUserPosts(user.Id);
         }
 
+        public IEnumerable<PostDTO> GetPendingPosts()
+        {
+            return _postsRepository.GetPendingPosts();
+        }
+
+        public IEnumerable<PostDTO> GetApprovedPosts()
+        {
+            return _postsRepository.GetApprovedPosts();
+        }
+
         public bool EditPost(UpdatePostRequest request)
         {
             var updatingPost = _postsRepository.Get(request.PostId);
 
-            if(updatingPost != null && (updatingPost.StatusId == (int) PostStatuses.Rejected || updatingPost.StatusId == (int)PostStatuses.Created))
+            if (updatingPost != null && (updatingPost.StatusId == (int)PostStatuses.Rejected || updatingPost.StatusId == (int)PostStatuses.Created))
             {
                 updatingPost.Text = request.Text;
                 return _postsRepository.Update(updatingPost);

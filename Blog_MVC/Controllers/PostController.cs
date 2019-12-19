@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Blog_MVC.Controllers
 {
+    [Route("[controller]")]
     public class PostController : Controller
     {
         private readonly ILogger<PostController> _logger;
@@ -24,14 +25,12 @@ namespace Blog_MVC.Controllers
         }
         
         [Authorize]
-        [Route("createpost")]
         public IActionResult CreatePost()
         {
             return View(new PostModel());
         }
 
         [Authorize]
-        [Route("createpost")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostModel model)
@@ -50,6 +49,15 @@ namespace Blog_MVC.Controllers
             }
 
             return RedirectToAction("Index", "UserPosts");
+        }
+
+        [Route("approvedposts")]
+        [AllowAnonymous]
+        public IActionResult ApprovedPosts()
+        {
+            var userPosts = _postManagerService.ApprovedPosts().Result;
+            return View(new EditorPostsModel { UserName = "Anonymous", UserPosts = userPosts});
+            //return View(new UserPostsModel { UserName = userName, UserPosts = userPosts.Result });
         }
     }
 }

@@ -12,5 +12,9 @@ namespace Blog_Common.DTOs
 
 		public string StatusName { get { return ((PostStatuses)StatusId).ToString(); } } // int
 		public DateTime CreatedDate { get; set; } // datetime
+
+		public DateTime ApprovalDate { get; set; } // datetime
+
+		public string Author { get; set; }
 	}
 }

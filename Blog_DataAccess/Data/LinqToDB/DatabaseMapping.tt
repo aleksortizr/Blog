@@ -10,5 +10,5 @@
 
 	NamespaceName = "Blog.DataAccess"; 
 	LoadSqlServerMetadata(".", "Blog");
-	GenerateModel(); 
+	GenerateModel();
 #>

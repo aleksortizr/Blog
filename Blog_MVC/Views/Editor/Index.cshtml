@@ -1,7 +1,7 @@
-﻿@model Blog_MVC.Models.UserPostsModel
+﻿@model Blog_MVC.Models.EditorPostsModel
 
 @{
-    ViewData["Title"] = "Your Posts";
+    ViewData["Title"] = "Pending Posts";
 }
 
 <h1>Your posts</h1>
@@ -12,7 +12,6 @@
         <tr>
             <th>Date</th>
             <th>Text</th>
-            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -24,12 +23,12 @@
                 <tr>
                     <td>@item.CreatedDate</td>
                     <td>@item.Text</td>
-                    <td>@item.StatusName</td>
                     <td>
-                        @if (item.StatusName == Blog_Common.PostStatuses.Created.ToString() || item.StatusName == Blog_Common.PostStatuses.Rejected.ToString())
+                        @if (item.StatusName == Blog_Common.PostStatuses.Pending.ToString())
                         {
-                            @Html.ActionLink("Edit", "Edit", "UserPosts", new { postId = item.Id })<b></b>
-                            @Html.ActionLink("Submit", "Submit", "UserPosts", new { postId = item.Id }, new { onclick = "return confirm('Are you sure you want to submit this post?');" })
+                        @Html.ActionLink("Approve", "Approve", "Editor", new { postId = item.Id })<b></b>
+                        @Html.ActionLink("Reject", "Reject", "Editor", new { postId = item.Id })<b></b>
+                        @Html.ActionLink("Delete", "Delete", "Editor", new { postId = item.Id },  new { onclick = "return confirm('Are you sure you wish to delete this post?');" })
                         }
                     </td>
                 </tr>
@@ -45,6 +44,3 @@
         }
     </tbody>
 </table>
-<div class="form-inline">
-    <input type="button" value="New Post" onclick="location.href='@Url.Action("CreatePost", "Post")'" class="btn btn-primary" />
-</div>

@@ -74,13 +74,14 @@ namespace Blog.DataAccess
 	[Table(Schema="dbo", Name="Posts")]
 	public partial class Post
 	{
-		[PrimaryKey, Identity   ] public int      Id          { get; set; } // int
-		[Column,        Nullable] public int?     ParentId    { get; set; } // int
-		[Column,     NotNull    ] public string   Text        { get; set; } // nvarchar(255)
-		[Column,     NotNull    ] public int      UserId      { get; set; } // int
-		[Column,     NotNull    ] public int      StatusId    { get; set; } // int
-		[Column,     NotNull    ] public DateTime CreatedDate { get; set; } // datetime
-		[Column,     NotNull    ] public DateTime UpdatedDate { get; set; } // datetime
+		[PrimaryKey, Identity   ] public int       Id           { get; set; } // int
+		[Column,        Nullable] public int?      ParentId     { get; set; } // int
+		[Column,     NotNull    ] public string    Text         { get; set; } // nvarchar(255)
+		[Column,     NotNull    ] public int       UserId       { get; set; } // int
+		[Column,     NotNull    ] public int       StatusId     { get; set; } // int
+		[Column,     NotNull    ] public DateTime  CreatedDate  { get; set; } // datetime
+		[Column,     NotNull    ] public DateTime  UpdatedDate  { get; set; } // datetime
+		[Column,        Nullable] public DateTime? ApprovalDate { get; set; } // datetime
 
 		#region Associations
 

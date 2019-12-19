@@ -1,0 +1,41 @@
+﻿@model Blog_MVC.Models.EditorPostsModel
+
+@{
+    ViewData["Title"] = "Approved Posts";
+}
+
+<h1>Approved posts list</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Created Date</th>
+            <th>Text</th>
+            <th>Author</th>
+            <th>Approval Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.UserPosts != null && Model.UserPosts.Count() > 0)
+        {
+            @foreach (var item in Model.UserPosts.OrderByDescending(p => p.ApprovalDate))
+            {
+        <tr>
+            <td>@item.CreatedDate</td>
+            <td>@item.Text</td>
+            <td>@item.Author</td>
+            <td>@item.ApprovalDate</td>
+        </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <small id="searchHelp" class="form-text text-muted">Query returned no elements.</small>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

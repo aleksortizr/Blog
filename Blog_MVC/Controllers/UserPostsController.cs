@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Blog_Common.DTOs;
 using Blog_MVC.Models;
 using Blog_MVC.Services;
 using LinqToDB;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blog_MVC.Controllers
 {
+    [Route("controller")]
     public class UserPostsController : Controller
     {
         private readonly ILogger<PostController> _logger;
@@ -34,12 +36,41 @@ namespace Blog_MVC.Controllers
             return View(new UserPostsModel { UserName = userName, UserPosts = userPosts.Result });
         }
 
-        [Route("Edit")]
         [Authorize]
         [HttpPost]
+        public ActionResult Edit([Bind] PostDTO post)
+        {
+            if(!_postManagerService.UpdatePost(post).Result)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "UserPosts");
+        }
+
+        [Authorize]
         public ActionResult Edit(int postId)
         {
-            return View();
+            var editPost = _postManagerService.GetPostById(postId).Result;
+            if(editPost == null || editPost.Id == 0)
+            {
+                return View();
+            }
+
+            return View(editPost);
         }
+
+        [Authorize]
+        [Route("Submit")]
+        public ActionResult Submit(int postId)
+        {
+            if(!_postManagerService.SubmitPost(postId).Result)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Index", "UserPosts");
+        }
+
     }
 }

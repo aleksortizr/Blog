@@ -65,6 +65,46 @@ namespace Blog_MVC.Services
             return Task.FromResult(_blogManager.GetUserPosts(userId));
         }
 
+        public Task<IEnumerable<PostDTO>> PendingPosts()
+        {
+            return Task.FromResult(_blogManager.GetPendingPosts());
+        }
+
+        public Task<IEnumerable<PostDTO>> ApprovedPosts()
+        {
+            return Task.FromResult(_blogManager.GetApprovedPosts());
+        }
+
+        public Task<PostDTO> GetPostById(int postId)
+        {
+            return Task.FromResult(_blogManager.GetPost(postId));
+        }
+
+        public Task<bool> UpdatePost(PostDTO post)
+        {
+            return Task.FromResult(_blogManager.EditPost(new UpdatePostRequest { PostId = post.Id, Text = post.Text }));
+        }
+
+        public Task<bool> SubmitPost(int postId)
+        {
+            return Task.FromResult(_blogManager.SubmitPost(postId));
+        }
+
+        public Task<bool> Approve(int postId)
+        {
+            return Task.FromResult(_blogManager.ApprovePost(postId));
+        }
+
+        public Task<bool> Reject(int postId)
+        {
+            return Task.FromResult(_blogManager.RejectPost(postId));
+        }
+
+        public Task<bool> Delete(int postId)
+        {
+            return Task.FromResult(_blogManager.DeletePost(postId));
+        }
+
         #region Private Methods
         private string HashString(string str)
         {

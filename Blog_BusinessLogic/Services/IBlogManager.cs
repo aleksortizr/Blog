@@ -10,9 +10,15 @@ namespace Blog_BusinessLogic.Services
     {
         public bool AddPost(CreatePostRequest request);
 
-        public IEnumerable<PostDTO> GetPosts(int? postId);
+        public IEnumerable<PostDTO> GetPosts();
+
+        public PostDTO GetPost(int postId);
 
         public IEnumerable<PostDTO> GetUserPosts(string username);
+
+        public IEnumerable<PostDTO> GetPendingPosts();
+
+        public IEnumerable<PostDTO> GetApprovedPosts();
 
         public bool EditPost(UpdatePostRequest request);
 

@@ -19,6 +19,10 @@ namespace Blog_Repositories
 
         public IEnumerable<PostDTO> GetUserPosts(int userId);
 
+        public IEnumerable<PostDTO> GetPendingPosts();
+
+        public IEnumerable<PostDTO> GetApprovedPosts();
+
         public IEnumerable<PostDTO> Get();
     }
 }
