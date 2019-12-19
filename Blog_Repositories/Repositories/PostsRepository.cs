@@ -3,6 +3,7 @@ using Blog_Common;
 using Blog_Common.DTOs;
 using LinqToDB;
 using System;
+using System.Data.Linq;
 using System.Collections.Generic;
 
 namespace Blog_Repositories
@@ -11,7 +12,7 @@ namespace Blog_Repositories
     {
         public PostsRepository(IDataContext context) : base(context)
         {
-
+            
         }
 
         public int Add(PostDTO post)
@@ -84,6 +85,8 @@ namespace Blog_Repositories
 
         public IEnumerable<PostDTO> GetApprovedPosts()
         {
+            LinqToDB.Common.Configuration.Linq.AllowMultipleQuery = true;
+            _dbSet = _dbContext.GetTable<Post>().LoadWith(x => x.User).LoadWith(x => x.Comments);
             var result = List(x => x.StatusId == (int)PostStatuses.Approved, null);
             return Mapping.Mapper.Map<IEnumerable<PostDTO>>(result);
         }

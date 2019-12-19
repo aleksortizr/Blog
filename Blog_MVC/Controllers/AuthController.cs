@@ -95,7 +95,7 @@ namespace Blog_MVC.Controllers
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.RoleId.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             var identity = new ClaimsIdentity(claims, "form");
             var principal = new ClaimsPrincipal(identity);

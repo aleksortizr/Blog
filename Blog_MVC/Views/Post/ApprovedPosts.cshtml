@@ -26,7 +26,19 @@
             <td>@item.Text</td>
             <td>@item.Author</td>
             <td>@item.ApprovalDate</td>
+            <td>@Html.ActionLink("Reply", "Add", "Comments", new { postId = item.Id })<b></b></td>
         </tr>
+                foreach(var commentItem in item.Comments)
+                {
+                    <tr>
+                        <td>
+                            @commentItem.UserName + "commented: "
+                        </td>
+                        <td>
+                            @commentItem.Text
+                        </td>
+                    </tr>
+                }
             }
         }
         else

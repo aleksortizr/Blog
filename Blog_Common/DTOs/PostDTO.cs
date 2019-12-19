@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Blog_Common.DTOs
 {
@@ -14,6 +15,8 @@ namespace Blog_Common.DTOs
 		public DateTime CreatedDate { get; set; } // datetime
 
 		public DateTime ApprovalDate { get; set; } // datetime
+
+		public IEnumerable<CommentDTO> Comments { get; set; }
 
 		public string Author { get; set; }
 	}

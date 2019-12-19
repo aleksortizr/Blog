@@ -26,8 +26,8 @@
                     <td>
                         @if (item.StatusName == Blog_Common.PostStatuses.Pending.ToString())
                         {
-                        @Html.ActionLink("Approve", "Approve", "Editor", new { postId = item.Id })<b></b>
-                        @Html.ActionLink("Reject", "Reject", "Editor", new { postId = item.Id })<b></b>
+                        @Html.ActionLink("Approve", "Approve", "Editor", new { postId = item.Id },  new { onclick = "return confirm('Are you sure you wish to approve this post?');"  })<b></b>
+                        @Html.ActionLink("Reject", "Reject", "Editor", new { postId = item.Id },  new { onclick = "return confirm('Are you sure you wish to reject this post?');" })<b></b>
                         @Html.ActionLink("Delete", "Delete", "Editor", new { postId = item.Id },  new { onclick = "return confirm('Are you sure you wish to delete this post?');" })
                         }
                     </td>

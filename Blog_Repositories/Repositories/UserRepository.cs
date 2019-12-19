@@ -11,7 +11,7 @@ namespace Blog_Repositories
     {
         public UserRepository(IDataContext context) : base(context)
         {
-            
+            LinqToDB.Common.Configuration.Linq.AllowMultipleQuery = true;
         }
 
         public UserDTO Get(int userId)
@@ -22,6 +22,7 @@ namespace Blog_Repositories
 
         public UserDTO Get(string userName)
         {
+            _dbSet = _dbContext.GetTable<User>().LoadWith(x => x.Role);
             var count = (from user in _dbSet
                          where user.UserName.ToLower() == userName.ToLower()
                          select user).Count();
@@ -36,6 +37,7 @@ namespace Blog_Repositories
 
         public IEnumerable<UserDTO> Get()
         {
+            _dbSet = _dbContext.GetTable<User>().LoadWith(x => x.Role);
             var result = List(null, null);
             return Mapping.Mapper.Map<IEnumerable<UserDTO>>(result);
         }

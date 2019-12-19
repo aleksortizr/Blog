@@ -24,7 +24,7 @@ namespace Blog_MVC.Controllers
         }
 
         [Route("editorposts")]
-        [Authorize]
+        [Authorize(Roles = "Editor")]
         public IActionResult Index()
         {
             var userName = User.Claims.First(x => x.Type == ClaimTypes.Name).Value;

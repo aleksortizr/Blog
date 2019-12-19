@@ -8,20 +8,22 @@ namespace Blog_Repositories
     {
         public MappingProfile()
         {
-            CreateMap<PostDTO, Post>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom((src, dest) => src.Id))
-                .ForMember(dest => dest.ParentId, opt => opt.MapFrom((src, dest) => src.ParentId))
-                .ForMember(dest => dest.StatusId, opt => opt.MapFrom((src, dest) => src.StatusId))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom((src, dest) => src.UserId))
-                .ForMember(dest => dest.Text, opt => opt.MapFrom((src, dest) => src.Text))
-                .ForMember(dest => dest.ApprovalDate, opt => opt.MapFrom((src, dest) => src.ApprovalDate))
-                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom((src, dest) => src.CreatedDate)).ReverseMap();
+            CreateMap<Comment, CommentDTO>().ReverseMap();
 
-            CreateMap<UserDTO, User>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom((src, dest) => src.Id))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom((src, dest) => src.Password))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom((src, dest) => src.UserName))
-                .ReverseMap();
+            CreateMap<Post, PostDTO>()
+                .ForMember(pts => pts.Comments, opt => opt.MapFrom(ps => ps.Comments))
+            .AfterMap((src, dest) =>
+            {
+                dest.Author = src.User != null ? src.User.UserName : string.Empty;
+            }).ReverseMap();
+
+
+
+            CreateMap<User, UserDTO>()
+                .AfterMap((src, dest) =>
+            {
+                dest.Role = src.Role != null ? src.Role.RoleName : string.Empty;
+            }).ReverseMap();
         }
     }
 }

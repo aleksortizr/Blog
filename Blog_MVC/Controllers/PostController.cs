@@ -57,7 +57,6 @@ namespace Blog_MVC.Controllers
         {
             var userPosts = _postManagerService.ApprovedPosts().Result;
             return View(new EditorPostsModel { UserName = "Anonymous", UserPosts = userPosts});
-            //return View(new UserPostsModel { UserName = userName, UserPosts = userPosts.Result });
         }
     }
 }

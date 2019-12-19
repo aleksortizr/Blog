@@ -49,10 +49,12 @@ namespace Blog.DataAccess
 	[Table(Schema="dbo", Name="Comments")]
 	public partial class Comment
 	{
-		[Column("id"), PrimaryKey, Identity] public int    Id     { get; set; } // int
-		[Column(),     NotNull             ] public int    UserId { get; set; } // int
-		[Column(),     NotNull             ] public string Text   { get; set; } // nvarchar(255)
-		[Column(),     NotNull             ] public int    PostId { get; set; } // int
+		[Column("id"), PrimaryKey,  Identity] public int       Id          { get; set; } // int
+		[Column(),        Nullable          ] public int?      UserId      { get; set; } // int
+		[Column(),     NotNull              ] public string    Text        { get; set; } // nvarchar(255)
+		[Column(),     NotNull              ] public int       PostId      { get; set; } // int
+		[Column(),        Nullable          ] public DateTime? CreatedDate { get; set; } // datetime
+		[Column(),        Nullable          ] public string    UserName    { get; set; } // nvarchar(50)
 
 		#region Associations
 
@@ -65,7 +67,7 @@ namespace Blog.DataAccess
 		/// <summary>
 		/// FK_Comments_Users
 		/// </summary>
-		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=false, Relationship=Relationship.ManyToOne, KeyName="FK_Comments_Users", BackReferenceName="Comments")]
+		[Association(ThisKey="UserId", OtherKey="Id", CanBeNull=true, Relationship=Relationship.ManyToOne, KeyName="FK_Comments_Users", BackReferenceName="Comments")]
 		public User User { get; set; }
 
 		#endregion

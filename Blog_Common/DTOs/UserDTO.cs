@@ -10,5 +10,7 @@ namespace Blog_Common.DTOs
         public string UserName { get; set; } // nvarchar(50)
         public string Password { get; set; } // nvarchar(50)
         public int? RoleId { get; set; } // int
+
+        public string Role { get; set; }
     }
 }
