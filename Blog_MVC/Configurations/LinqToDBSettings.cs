@@ -31,7 +31,7 @@ namespace Blog_API.Configurations
                     {
                         Name = "SqlServer",
                         ProviderName = "SqlServer",
-                        ConnectionString = @"Server=DESKTOP-8FG06S6;Database=Blog;Trusted_Connection=True;" //Alexander office
+                        ConnectionString = @"Server=tcp:aortiz-dev.database.windows.net,1433;Initial Catalog=Blog;Persist Security Info=False;User ID=aortiz-admin;Password=aort.AZ20;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" //Alexander office
                         //ConnectionString = @"Server=DESKTOP-94C82G3;Database=Blog;Trusted_Connection=True;" //Alexander Home
                     };
             }
