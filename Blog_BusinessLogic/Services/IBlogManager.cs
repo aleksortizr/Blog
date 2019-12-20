@@ -29,5 +29,7 @@ namespace Blog_BusinessLogic.Services
         public bool ApprovePost(int postId);
 
         public bool RejectPost(int postId);
+
+        public bool SubmitComment(CommentDTO comment);
     }
 }

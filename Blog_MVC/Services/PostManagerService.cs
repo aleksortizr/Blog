@@ -105,6 +105,11 @@ namespace Blog_MVC.Services
             return Task.FromResult(_blogManager.DeletePost(postId));
         }
 
+        public Task<bool> SubmitComment(Blog_Common.DTOs.CommentDTO comment)
+        {
+            return Task.FromResult(_blogManager.SubmitComment(comment));
+        }
+
         #region Private Methods
         private string HashString(string str)
         {

@@ -29,5 +29,7 @@ namespace Blog_MVC.Services
         public Task<bool> Reject(int postId);
 
         public Task<bool> Delete(int postId);
+
+        public Task<bool> SubmitComment(Blog_Common.DTOs.CommentDTO comment);
     }
 }

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blog_Repositories.Repositories
+namespace Blog_Repositories
 {
     public class CommentsRepository : BaseRepository<Comment>, IRepository<Comment>, ICommentsRepository
     {

@@ -12,11 +12,13 @@ namespace Blog_BusinessLogic
     {
         private readonly IPostsRepository _postsRepository;
         private readonly IUsersRepository _usersRepository;
+        private readonly ICommentsRepository _commentsRepository;
 
-        public BlogManager(IPostsRepository postRepository, IUsersRepository userRepository)
+        public BlogManager(IPostsRepository postRepository, IUsersRepository userRepository, ICommentsRepository commentsRepository)
         {
             _postsRepository = postRepository;
             _usersRepository = userRepository;
+            _commentsRepository = commentsRepository;
         }
 
         /// <summary>
@@ -134,6 +136,11 @@ namespace Blog_BusinessLogic
             }
 
             return false;
+        }
+
+        public bool SubmitComment(CommentDTO comment)
+        {
+            return _commentsRepository.Add(comment) > 0 ;
         }
     }
 }

@@ -39,6 +39,7 @@ namespace Blog_MVC
                 .AddCookie("TempCookie");
 
             services.AddSingleton<IDataContext, DataContext>();
+            services.AddSingleton<ICommentsRepository, CommentsRepository>();
             services.AddSingleton<IUsersRepository, UserRepository>();
             services.AddSingleton<IPostsRepository, PostsRepository>();
             services.AddSingleton<IBlogUserManager, BlogUserManager>();
