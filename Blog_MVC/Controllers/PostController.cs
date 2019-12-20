@@ -23,7 +23,7 @@ namespace Blog_MVC.Controllers
             _postManagerService = userService;
             _logger = logger;
         }
-        
+
         [Authorize]
         public IActionResult CreatePost()
         {
@@ -56,7 +56,32 @@ namespace Blog_MVC.Controllers
         public IActionResult ApprovedPosts()
         {
             var userPosts = _postManagerService.ApprovedPosts().Result;
-            return View(new EditorPostsModel { UserName = "Anonymous", UserPosts = userPosts});
+            return View(new EditorPostsModel { UserName = "Anonymous", UserPosts = userPosts });
+        }
+
+        [Route("commentpost")]
+        [AllowAnonymous]
+        public IActionResult CommentPost(int postId)
+        {
+            var loggedInUser = User.Identity.IsAuthenticated ? User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value : null;
+            var userName = User.Identity.IsAuthenticated ? User.Claims.First(x => x.Type == ClaimTypes.Name).Value : "Anonymous";
+            var userPost = _postManagerService.GetPostById(postId).Result;
+            if (userPost == null)
+                return View();
+            return View(new CommentPostModel
+            {
+                Post = userPost,
+                UserId = (string.IsNullOrEmpty(loggedInUser)) ? int.Parse(loggedInUser) : (int?)null,
+                UserName = userName
+            });
+        }
+
+        [Route("submitcomment")]
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult SubmitComment([Bind] CommentPostModel comment)
+        {
+            return View();
         }
     }
 }

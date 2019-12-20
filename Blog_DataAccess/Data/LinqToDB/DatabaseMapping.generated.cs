@@ -49,12 +49,12 @@ namespace Blog.DataAccess
 	[Table(Schema="dbo", Name="Comments")]
 	public partial class Comment
 	{
-		[Column("id"), PrimaryKey,  Identity] public int       Id          { get; set; } // int
-		[Column(),        Nullable          ] public int?      UserId      { get; set; } // int
-		[Column(),     NotNull              ] public string    Text        { get; set; } // nvarchar(255)
-		[Column(),     NotNull              ] public int       PostId      { get; set; } // int
-		[Column(),        Nullable          ] public DateTime? CreatedDate { get; set; } // datetime
-		[Column(),        Nullable          ] public string    UserName    { get; set; } // nvarchar(50)
+		[PrimaryKey, Identity   ] public int      Id          { get; set; } // int
+		[Column,        Nullable] public int?     UserId      { get; set; } // int
+		[Column,     NotNull    ] public string   Text        { get; set; } // nvarchar(255)
+		[Column,     NotNull    ] public int      PostId      { get; set; } // int
+		[Column,     NotNull    ] public DateTime CreatedDate { get; set; } // datetime
+		[Column,     NotNull    ] public string   UserName    { get; set; } // nvarchar(50)
 
 		#region Associations
 

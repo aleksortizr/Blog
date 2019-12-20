@@ -21,7 +21,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserPosts" asp-action="Index">Your Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Editor" asp-action="Index">Pending Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="ApprovedPosts">Approved Posts</a>
+                        </li>
                         @if (Context.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -35,22 +43,12 @@
                         else
                         {
                             <li class="nav-item">
-                                <a asp-action="Login" asp-controller="Auth" class="nav-link">LogIn</a>
+                                <a asp-action="Login" asp-controller="Auth" class="nav-link text-dark">LogIn</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
                             </li>
                         }
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserPosts" asp-action="Index">Your Posts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Editor" asp-action="Index">Pending Posts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="ApprovedPosts">Approved Posts</a>
-                        </li>
                     </ul>
                 </div>
             </div>
